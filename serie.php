@@ -1,24 +1,11 @@
 <?php
 $id = $_GET['id'];
 require_once('idiorm-master/idiorm.php');
+include('db.php');
 
-ORM::configure("mysql:host=localhost;dbname=projet;charset=utf8");
-ORM::configure("username", "root");
-ORM::configure("password", "brucemax67");
-    
-
-$serie = ORM::for_table('series')->find_one($id);
-$genres = ORM::for_table('seriesgenres')->where('series_id', $id)->find_array();
-$genreName = array();
-foreach($genres as $genre){
-   array_push($genreName, ORM::for_table('genres')->find_one($genre['genre_id']));
-}
-
-$saisons = ORM::for_table('seriesseasons')->where('series_id', $id)->find_array();
-$seasonNames = array();
-foreach($saisons as $saison){
-   array_push($seasonNames, ORM::for_table('seasons')->find_one($saison['season_id']));
-}
+$serie = getSerie($id);
+$genreName =  getGenre($id);
+$seasonNames = getSaisons($id);
 ?>
 
     <!DOCTYPE html>
@@ -32,7 +19,8 @@ foreach($saisons as $saison){
         <meta name="author" content="">
         <link rel="shortcut icon" href="assets/ico/favicon.ico">
 
-        <title>SOLID - Bootstrap 3 Theme</title>
+        <title>Recommendation de séries</title>
+
 
         <!-- Bootstrap core CSS -->
         <link href="assets/css/bootstrap.css" rel="stylesheet">
@@ -42,14 +30,7 @@ foreach($saisons as $saison){
         <link href="assets/css/font-awesome.min.css" rel="stylesheet">
 
 
-        <!-- Just for debugging purposes. Don't actually copy this line! -->
-        <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
-        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 
         <script src="assets/js/modernizr.js"></script>
     </head>
@@ -68,8 +49,14 @@ foreach($saisons as $saison){
                     </button>
                     <a class="navbar-brand" href="index.php">HOME</a>
                 </div>
+                <div class="col-lg-8">
+                    <form action="search.php" method="post">
+                        <input id="searchbar" type="text" class="form-control" name="searchbar" placeholder="Recherche...">
+                    </form>
+                </div>
                 <!--/.nav-collapse -->
             </div>
+
         </div>
 
 

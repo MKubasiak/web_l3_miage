@@ -1,7 +1,8 @@
-<?php
+<?php $search = $_POST['searchbar'];
 require_once('idiorm-master/idiorm.php');
 include('db.php');
- ?>
+$series = search($search);
+?>
 
     <!DOCTYPE html>
     <html lang="en">
@@ -13,8 +14,8 @@ include('db.php');
         <meta name="description" content="">
         <meta name="author" content="">
         <link rel="shortcut icon" href="assets/ico/favicon.ico">
-
         <title>Recommendation de séries</title>
+
 
         <!-- Bootstrap core CSS -->
         <link href="assets/css/bootstrap.css" rel="stylesheet">
@@ -49,40 +50,27 @@ include('db.php');
             </div>
 
         </div>
-
         <!-- *****************************************************************************************************************
-	 HEADERWRAP
+	 BLUE WRAP
 	 ***************************************************************************************************************** -->
-        <div id="headerwrap">
+        <div id="blue">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-8 col-lg-offset-2">
-                        <h3>Arrêtez de chercher</h3>
-                        <h1>Nous trouvons les séries pour vous</h1>
-                        <h4>Les recommandations Netflix ne vous plaisent pas ? Vous consommez tant de séries que vous n'arrivez plus à en trouver ?</h4>
-                        <h4>Faites nous confiance !</h4>
-                    </div>
+                    <h3><?php echo "Recherche pour : " . $search?></h3>
                 </div>
                 <!-- /row -->
             </div>
             <!-- /container -->
         </div>
-        <!-- /headerwrap -->
+        <!-- /blue -->
 
         <!-- *****************************************************************************************************************
 	 PORTFOLIO SECTION
 	 ***************************************************************************************************************** -->
         <div id="portfoliowrap">
-            <h3>Séries populaires</h3>
-
             <div class="portfolio-centered">
                 <div class="recentitems portfolio">
-
-
-
                     <?php 
-                $series = getHomeSeries();
-                
                     foreach($series as $serie){
                     echo '    
                       <div class="portfolio-item graphic-design">
@@ -91,7 +79,7 @@ include('db.php');
                             <div class="he-view">
                                 <div class="bg a0" data-animate="fadeIn">
                                     <h3 class="a1" data-animate="fadeInDown">'.$serie['name'].'</h3>
-                                   <p>'.$serie['overview'].'</p>
+                                    <p>'.$serie['overview'].'</p>
                                     <a href="serie.php?id='.$serie['id'].'" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-link"></i></a>
                                 </div>
                                 <!-- he bg -->
@@ -107,12 +95,15 @@ include('db.php');
                 
                 ?>
 
+
                 </div>
                 <!-- portfolio -->
             </div>
             <!-- portfolio container -->
         </div>
         <!--/Portfoliowrap -->
+
+
 
         <!-- *****************************************************************************************************************
 	 FOOTER
@@ -123,8 +114,30 @@ include('db.php');
                     <div class="col-lg-4">
                         <h4>About</h4>
                         <div class="hline-w"></div>
-                        <p>Projet web, recommandation de séries.</p>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
                     </div>
+                    <div class="col-lg-4">
+                        <h4>Social Links</h4>
+                        <div class="hline-w"></div>
+                        <p>
+                            <a href="#"><i class="fa fa-dribbble"></i></a>
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                            <a href="#"><i class="fa fa-tumblr"></i></a>
+                        </p>
+                    </div>
+                    <div class="col-lg-4">
+                        <h4>Our Bunker</h4>
+                        <div class="hline-w"></div>
+                        <p>
+                            Some Ave, 987,
+                            <br/> 23890, New York,
+                            <br/> United States.
+                            <br/>
+                        </p>
+                    </div>
+
                 </div>
                 <! --/row -->
             </div>

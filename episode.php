@@ -1,17 +1,10 @@
 <?php 
 $id = $_GET['id'];
 require_once('idiorm-master/idiorm.php');
+include('db.php');
 
-ORM::configure("mysql:host=localhost;dbname=projet;charset=utf8");
-ORM::configure("username", "root");
-ORM::configure("password", "brucemax67");
-$episode = ORM::for_table('episodes')->find_one($id);
-
-$actors = ORM::for_table('episodesactors')->where('episode_id', $id)->find_array();
-$actorsNames = array();
-foreach($actors as $actor){
-   array_push($actorsNames, ORM::for_table('actors')->find_one($actor['actor_id']));
-}
+$episode = getEpisode($id);
+$actorsNames = getActors($id);
 ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -24,7 +17,7 @@ foreach($actors as $actor){
         <meta name="author" content="">
         <link rel="shortcut icon" href="assets/ico/favicon.ico">
 
-        <title>SOLID - Bootstrap 3 Theme</title>
+        <title>Recommendation de séries</title>
 
         <!-- Bootstrap core CSS -->
         <link href="assets/css/bootstrap.css" rel="stylesheet">
@@ -34,19 +27,11 @@ foreach($actors as $actor){
         <link href="assets/css/font-awesome.min.css" rel="stylesheet">
 
 
-        <!-- Just for debugging purposes. Don't actually copy this line! -->
-        <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-
-        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
         <script src="assets/js/modernizr.js"></script>
     </head>
 
     <body>
+        <!-- Fixed navbar -->
         <div class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container">
                 <div class="navbar-header">
@@ -58,8 +43,14 @@ foreach($actors as $actor){
                     </button>
                     <a class="navbar-brand" href="index.php">HOME</a>
                 </div>
+                <div class="col-lg-8">
+                    <form action="search.php" method="post">
+                        <input id="searchbar" type="text" class="form-control" name="searchbar" placeholder="Recherche...">
+                    </form>
+                </div>
                 <!--/.nav-collapse -->
             </div>
+
         </div>
 
         <!-- *****************************************************************************************************************
